@@ -1,0 +1,155 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>
+    {% block title %}
+    {% endblock title %} | 
+    FARM</title>
+
+	<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.9.0/css/bulma.min.css">
+    <link rel="stylesheet" href="{% static 'styles/main.css' %}">
+
+    <script src="{% static 'scripts/main.js' %}"></script>
+    <style>
+            /**
+    Nav
+    */
+
+    .navbar {
+        text-transform: uppercase;
+    }
+
+    .navbar .is-dark {
+        background: #444;
+    }
+
+
+    /*
+    Footer
+    */
+
+    .footer a {
+        margin-bottom: 15px;
+        display: inline-block;
+        color: #444;
+    }
+
+
+    /* override bulma */
+
+    .input,
+    .button {
+        border-radius: 0;
+    }
+
+
+    /* Product list item */
+
+    .crop-list-item .box .subtitle {
+        margin-bottom: 0;
+    }
+
+    .crop-list-item .box .price {
+        color: #888;
+    }
+    </style>
+</head>
+<body>
+    <nav class="navbar is-dark">
+        <div class="navbar-brand">
+            <a class="navbar-item" href="{% url 'home' %}">Farm</a>
+
+            <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="main-navbar">
+                <span aria-hidden="true"></span>
+                <span aria-hidden="true"></span>
+                <span aria-hidden="true"></span>
+            </a>
+        </div>
+
+        <div id='main-navbar' class="navbar-menu">
+            <div class="navbar-start">
+                <div class="navbar-item">
+                    <form method="get" action="{% url 'search' %}">
+                        <div class="field has-addons">
+                            <div class="control">
+                                <input tyoe="text" class="input" placeholder="Search..." name="query">
+                            </div>
+                            <div class="control">
+                                <button class="button is-primary is-uppercase">Search</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+    
+            <div class="navbar-end">            
+                <div class="navbar-item">
+                    <div class="buttons">
+                        {% if request.user.is_authenticated %}
+                            <a href="{% url 'farmer_admin' %}" class="button is-primary"><strong>Profile</strong></a>
+                            <a href="{% url 'logout' %}" class="button is-dark"><strong>Log Out</strong></a>
+                        {% else %}
+                            <a href="{% url 'login' %}" class="button is-dark"><strong>Sign in</strong></a>
+                            <a href="{% url 'become_farmer' %}" class="button is-primary"><strong>Register</strong></a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+    <div class="tabs is-centered">
+        <ul>
+            <li>Categories:</li>
+            {% for category in menu_categories %}
+                <li><a href="{% url 'category' category.slug %}" class="navbar-item">{{ category.title }}</a></li>
+            {% endfor %}
+        </ul>
+      </div>
+
+    <section class='section'>
+        <div class="container">
+            {% block content %}
+            
+            {% endblock content %}
+        </div>
+    </section>
+
+    <footer class='footer'>
+        <h3 class='is-size-4 mb-4'>FARM</h3>
+
+        {% if request.user.is_authenticated %}
+            <a href="{% url 'farmer_admin' %}">Farmer Profile</a>
+        {% else %}
+            <a href="{% url 'become_farmer' %}">Create your Farm</a>
+        {% endif %}
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+
+            // Get all "navbar-burger" elements
+            const $navbarBurgers = Array.prototype.slice.call(document.querySelectorAll('.navbar-burger'), 0);
+          
+            // Add a click event on each of them
+            $navbarBurgers.forEach( el => {
+              el.addEventListener('click', () => {
+          
+                // Get the target from the "data-target" attribute
+                const target = el.dataset.target;
+                const $target = document.getElementById(target);
+          
+                // Toggle the "is-active" class on both the "navbar-burger" and the "navbar-menu"
+                el.classList.toggle('is-active');
+                $target.classList.toggle('is-active');
+          
+              });
+            });
+          
+          });
+    </script>
+</body>
+</html>

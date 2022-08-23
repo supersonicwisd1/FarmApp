@@ -1,0 +1,33 @@
+{% extends 'core/base.html' %}
+
+{% block title %}
+{{ crop.crop_name }}
+{% endblock title %}
+
+{% block content %}
+    {% if crop.image %}
+        <figure class="image is-4by3 mb-6">
+            <img src="{{ crop.image.url}} ">
+        </figure>
+    {% endif %}
+
+    <h1 class="title"> {{ crop.crop_name }}, ${{ crop.price }}</h1>
+
+    <p class="mb-6"><span class="tag is-dark">{{ crop.farmer.farm_name }}</span></p>
+
+    <p>{{ crop.description }}</p>
+
+    {% if similar_crops %}
+        <hr>
+
+        <div class="columns is-multiline">
+            <div class="column is-12">
+                <h2 class="subtitle">Similar Crops</h2>
+            </div>
+
+            {% for crop in similar_crops %}
+                {% include 'crop/parts/list_item.html' %}
+            {% endfor %}
+        </div>
+    {% endif %}
+{% endblock content %}

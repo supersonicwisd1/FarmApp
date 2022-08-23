@@ -1,0 +1,41 @@
+{% extends 'core/base.html' %}
+
+{% block title %}Farmer Admin{% endblock title %}
+
+{% block content %}
+<div class="box">
+    <h1 class="title">Farm Name - {{ farmer.farm_name }}</h1>
+    <h4>{{ firstname }}</h4>
+    {% comment %} <a href="{% url 'profile' %}" class="button is-primary">Update profile</a> {% endcomment %}
+</div>
+
+<div class="box">
+    <h2 class="is-size-3 mb-4">My Crops</h2>
+    <h4></h4>
+
+    <a href="{% url 'add_crop' %}" class="button is-dark is-uppercase mb-6">Add Crop</a>
+
+    {% if crops %}
+        <table class="table is-fullwidth">
+            <thead>
+                <tr>
+                    <th>Crop Name</th>
+                    <th>Price</th>
+                    <th>Date Added</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                {% for crop in crops %}
+                    <tr>
+                        <td><a href="{% url 'crop' crop.category.slug crop.slug %}">{{ crop.crop_name }}</a></td>
+                        <td>${{ crop.price }}</td>
+                        <td>{{ crop.date_added }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>You don't have any products yet...</p>
+    {% endif %}
+{% endblock %}
