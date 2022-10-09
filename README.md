@@ -13,7 +13,7 @@ This respository is a well designed Market place for trade online. It is a place
 - View other market Products and more
 
 ## Technologies
-- Python
+- Python (Django)
 - HTML
 - CSS
 - JavaScript
