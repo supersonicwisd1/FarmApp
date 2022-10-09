@@ -15,3 +15,5 @@ This respository is a well designed Market place for trade online. It is a place
 ## Technologies
 - Python
 - HTML
+- CSS
+- JavaScript
